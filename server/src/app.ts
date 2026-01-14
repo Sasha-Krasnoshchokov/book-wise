@@ -1,7 +1,7 @@
 import express from "express";
 import helmet from "helmet";
 import cors from "cors";
-import { env } from "./config/env.js";
+import { env } from "./config/env";
 
 const app = express();
 
@@ -23,10 +23,11 @@ app.get("/health", (req, res) => {
 // Centralized Error Handler (Must be last)
 app.use(
   (
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     err: any,
     req: express.Request,
-    res: express.Response,
-    next: express.NextFunction
+    res: express.Response
+    // next: express.NextFunction
   ) => {
     const status = err.status || 500;
     res.status(status).json({
