@@ -1,7 +1,7 @@
-import express from "express";
-import helmet from "helmet";
-import cors from "cors";
-import { env } from "./config/env";
+import express from 'express';
+import helmet from 'helmet';
+import cors from 'cors';
+import { env } from './config/env';
 
 const app = express();
 
@@ -12,10 +12,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Health Check
-app.get("/health", (req, res) => {
+app.get('/health', (req, res) => {
   res.status(200).json({
-    status: "OK",
-    message: "Server Healthy",
+    status: 'OK',
+    message: 'Server Healthy',
     uptime: process.uptime(),
   });
 });
@@ -25,15 +25,16 @@ app.use(
   (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     err: any,
-    req: express.Request,
-    res: express.Response
-    // next: express.NextFunction
+    _req: express.Request,
+    res: express.Response,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _next: express.NextFunction
   ) => {
     const status = err.status || 500;
     res.status(status).json({
       error: {
-        message: err.message || "Internal Server Error",
-        ...(env.NODE_ENV === "development" && { stack: err.stack }),
+        message: err.message || 'Internal Server Error',
+        ...(env.NODE_ENV === 'development' && { stack: err.stack }),
       },
     });
   }
