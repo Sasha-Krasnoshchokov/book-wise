@@ -1,7 +1,9 @@
+import 'reflect-metadata';
 import express from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
 import { env } from './config/env';
+import { dbHealthChecker } from './db/healthChecker';
 
 const app = express();
 
@@ -15,10 +17,16 @@ app.use(express.urlencoded({ extended: true }));
 app.get('/health', (_req, res) => {
   console.info('Health check endpoint accessed');
   res.status(200).json({
-    status: 'OK',
+    status: 'Healthy',
     message: 'Server Healthy',
+    error: '',
     uptime: process.uptime(),
   });
+});
+app.get('/health-db', async (_req, res) => {
+  console.info('Health check DB endpoint accessed');
+  const answer = await dbHealthChecker();
+  res.status(200).json(answer);
 });
 
 // Centralized Error Handler (Must be last)

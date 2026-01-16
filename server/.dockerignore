@@ -5,3 +5,4 @@ dist
 .env
 Dockerfile
 .dockerignore
+postgres_data
