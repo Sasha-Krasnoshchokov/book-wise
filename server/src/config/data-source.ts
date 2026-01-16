@@ -11,6 +11,6 @@ export const AppDataSource = new DataSource({
   ssl: NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
   synchronize: NODE_ENV === 'development', // Auto-creates tables in dev
   logging: NODE_ENV === 'development',
-  // entities: ['src/entities/**/*.ts'],
+  entities: ['src/entities/**/*.ts'],
   migrations: ['src/migrations/**/*.ts'],
 });
