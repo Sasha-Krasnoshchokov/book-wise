@@ -1,0 +1,45 @@
+services:
+  server:
+    image: book-wise-server-dev
+    build:
+      context: .
+      target: development
+      dockerfile: Dockerfile
+    env_file:
+      - .env.local
+    ports:
+      - 3210:3210
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      # - NODE_ENV=development
+      - TSX_LOADER_FALLBACK=1
+      - CHOKIDAR_USEPOLLING=1
+      - CHOKIDAR_INTERVAL=100
+      # - DATABASE_URL=postgresql://book_wise_user:book_wise_password@db:5432/book_wise_dev
+      # - DB_HOST=book_wise_db
+      # - DB_PORT=5432
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: postgres:15-alpine
+    container_name: book-wise-dev-db
+    ports:
+      - 5432:5432
+    # environment:
+    #   - POSTGRES_USER=book_wise_user
+    #   - POSTGRES_PASSWORD=book_wise_password
+    #   - POSTGRES_DB=book_wise_dev
+    volumes:
+      - book-wise-dev-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U book_wise_user -d book_wise_dev']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  book-wise-dev-data:
