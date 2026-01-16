@@ -12,7 +12,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Health Check
-app.get('/health', (req, res) => {
+app.get('/health', (_req, res) => {
+  console.info('Health check endpoint accessed');
   res.status(200).json({
     status: 'OK',
     message: 'Server Healthy',
