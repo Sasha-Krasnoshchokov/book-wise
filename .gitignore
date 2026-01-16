@@ -1,8 +1,8 @@
 # Ignore node modules and build directories
 */node_modules/
 */.env
+*/.env.local
 */dist/
 */build/
 
-.env
 .vscode/

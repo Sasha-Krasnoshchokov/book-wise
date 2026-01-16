@@ -1,0 +1,19 @@
+services:
+  server:
+    image: book-wise-server-dev
+    build:
+      context: .
+      target: development
+      dockerfile: Dockerfile
+    env_file:
+      - .env.local
+    ports:
+      - 3210:3210
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - TSX_LOADER_FALLBACK=1
+      - CHOKIDAR_USEPOLLING=1
+      - CHOKIDAR_INTERVAL=100
